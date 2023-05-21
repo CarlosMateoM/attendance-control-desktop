@@ -27,12 +27,15 @@ public class AttendanceService {
     }
     
     public void registerAttendance(Employee employee){
+        
         Attendance attendance = findByAttendanceDate(LocalDate.now());
+        
         for(Employee temEmployee: attendance.getEmployees()){
             if(Objects.equals(temEmployee.getId(), employee.getId())){
-                throw new RuntimeException(" usted ya registro su asistencia el dia de hoy!");
+                throw new RuntimeException(employee.getFirstName() + " usted ya registro su asistencia el dia de hoy!");
             }
         }
+        
         attendanceDAO.registerAttendance(employee, attendance);
     }
     

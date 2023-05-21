@@ -12,6 +12,10 @@ public class EmployeeService {
         employeeDAO = new EmployeeDAO();
     }
     
+    public Employee findById(Long id){
+        return employeeDAO.findById(id);
+    }
+    
     public List<Employee> findAll(){
         return employeeDAO.findAll();
     }

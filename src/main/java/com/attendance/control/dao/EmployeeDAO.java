@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 public class EmployeeDAO extends AbstractJpaDAO<Employee, Long> {
-
+  
     public List<Employee> findByName(String searchTerm) {
         String hql = "FROM Employee WHERE firstName LIKE :searchTerm OR lastName LIKE :searchTerm OR CONCAT(firstName, ' ', lastName) = :name";
 

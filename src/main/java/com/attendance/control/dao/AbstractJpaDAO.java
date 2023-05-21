@@ -28,7 +28,9 @@ public abstract class AbstractJpaDAO<T, PK> implements IGenericDAO<T, PK> {
 
     @Override
     public void update(T entity) {
+        entityManager.getTransaction().begin();
         entityManager.merge(entity);
+        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -49,9 +51,7 @@ public abstract class AbstractJpaDAO<T, PK> implements IGenericDAO<T, PK> {
 
     @Override
     public List<T> findAll() {
-        entityManager.getTransaction().begin();
         List<T> listT = entityManager.createQuery("FROM " + entityClass.getName(), entityClass).getResultList();
-        entityManager.getTransaction().commit();
         return listT;
     }
 

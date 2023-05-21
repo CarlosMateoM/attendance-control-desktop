@@ -33,11 +33,9 @@ public class Controller {
         registerAttendanceController = new RegisterAttendanceController(
                 registerAttendanceForm
         );
-        
-        init();
     }
     
-    private void init(){
+    public void init(){
         
         MainFrame.getInstance().setVisible(true);
         registerAttendanceController.initView();

@@ -20,7 +20,9 @@ public class AttendanceDAO extends AbstractJpaDAO<Attendance, Long> {
         entityManager.getTransaction().begin();
         attendance.getEmployees().add(employee);
         entityManager.persist(attendance);
+        entityManager.flush();
         entityManager.getTransaction().commit();
+        entityManager.refresh(employee);
 
     }
 }

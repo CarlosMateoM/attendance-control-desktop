@@ -81,7 +81,6 @@ com/attendance/control/view/components/WindowBar.class
 com/attendance/control/view/components/table/TableCellAction.class
 com/attendance/control/view/MainFrame.class
 com/attendance/control/view/components/table/TableHeader.class
-com/attendance/control/controller/Controller$2.class
 com/attendance/control/util/arduino/ArduinoConnection.class
 com/attendance/control/view/form/AttendanceForm.class
 com/attendance/control/view/components/WindowBar$3.class

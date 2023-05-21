@@ -56,7 +56,7 @@ public class EmployeeController {
             if (view.getEmployeeTable().isEditing()) {
                 view.getEmployeeTable().getCellEditor().stopCellEditing();
             }
-            showEmployeeForm(employee);
+            showEmployeeForm(model.findById(employee.getId()));
         }
     };
 
@@ -196,6 +196,12 @@ public class EmployeeController {
     }
 
     private void registerFingerprint() {
+        if(employeeToSave != null && 
+                employeeToSave.getFingerprintId() > 0){
+            showMessage("¡Usted ya registro su huella!");
+            return;
+        }
+        
         ac.send("2");
     }
 
@@ -247,13 +253,16 @@ public class EmployeeController {
     }
     
     private void showEmployeeForm(Employee employee){
+        
         ShowEmployeeForm viewEmployee = new ShowEmployeeForm(null, true);
+        DefaultListModel<String> attendanceEmployeeList = new DefaultListModel();
+        
         viewEmployee.getEmployeeNameLb().setText(
                 employee.getFirstName() + " " + employee.getLastName()
         );
         viewEmployee.getEmployeeCCLb().setText(employee.getCc());
-        DefaultListModel<String> attendanceEmployeeList = new DefaultListModel();
         viewEmployee.setAttendanceListModel(attendanceEmployeeList);
+        
         for(Attendance attendance: employee.getAttendances()){
             LocalDate attendanceDate = attendance.getAttendanceDate();
             attendanceEmployeeList.addElement(

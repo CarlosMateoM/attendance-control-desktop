@@ -74,7 +74,7 @@ public class RegisterAttendanceController {
                 attendanceModel.registerAttendance(employee);
                 showMessage("¡Bienvenido " + employee.getFirstName() + "!", true);
             } catch (RuntimeException e) {
-                showMessage("¡" + employee.getFirstName() + e.getMessage(), true);
+                showMessage(e.getMessage(), true);
 
             }
         }
