@@ -36,6 +36,9 @@ public abstract class AbstractJpaDAO<T, PK> implements IGenericDAO<T, PK> {
     @Override
     public void delete(T entity) {
         entityManager.getTransaction().begin();
+         if (!entityManager.contains(entity)) {
+            entity = entityManager.merge(entity);
+        }
         T managedEntity = entityManager.merge(entity);
         entityManager.remove(managedEntity);
         entityManager.getTransaction().commit();

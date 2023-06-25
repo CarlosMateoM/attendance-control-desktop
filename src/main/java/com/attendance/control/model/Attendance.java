@@ -12,7 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +37,10 @@ public class Attendance implements Serializable {
     @Column(unique = true, name = "attendanceDate")    
     private LocalDate attendanceDate;
     @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "attendance_employee",
+      joinColumns = @JoinColumn(name = "attendances_id"),
+      inverseJoinColumns = @JoinColumn(name = "employees_id")
+    )
     private List<Employee> employees = new ArrayList<>();
 }

@@ -117,29 +117,31 @@ public class EmployeeController {
         }
 
     }
-    
-    private void addSearchTxTListener(){
+
+    private void addSearchTxTListener() {
         view.getSearchEmployeeTxt().getDocument()
-                .addDocumentListener(new DocumentListener(){
-            @Override
-            public void insertUpdate(DocumentEvent de) {
-               searchEmployee();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent de) {
-               searchEmployee();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent de) {
-             searchEmployee();
-            }
-        });
+                .addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent de) {
+                        searchEmployee();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent de) {
+                        searchEmployee();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent de) {
+                        searchEmployee();
+                    }
+                });
     }
-    
-     private void searchEmployee() {
-         
+
+    private void searchEmployee() {
+
         String searchTerm = view.getSearchEmployeeTxt().getText();
-        
+
         List<Employee> employees = model.findByName(searchTerm);
 
         employeeTable.setRowCount(0);
@@ -196,12 +198,12 @@ public class EmployeeController {
     }
 
     private void registerFingerprint() {
-        if(employeeToSave != null && 
-                employeeToSave.getFingerprintId() > 0){
+        if (employeeToSave != null
+                && employeeToSave.getFingerprintId() > 0) {
             showMessage("¡Usted ya registro su huella!");
             return;
         }
-        
+
         ac.send("2");
     }
 
@@ -230,7 +232,7 @@ public class EmployeeController {
             deleteFingerprintId(employeeToSave.getFingerprintId());
         }
         registerEmployeeForm.closeMenu();
-        
+
     }
 
     private void deleteFingerprintId(int id) {
@@ -251,33 +253,33 @@ public class EmployeeController {
         };
         t.start();
     }
-    
-    private void showEmployeeForm(Employee employee){
-        
+
+    private void showEmployeeForm(Employee employee) {
+
         ShowEmployeeForm viewEmployee = new ShowEmployeeForm(null, true);
         DefaultListModel<String> attendanceEmployeeList = new DefaultListModel();
-        
+
         viewEmployee.getEmployeeNameLb().setText(
                 employee.getFirstName() + " " + employee.getLastName()
         );
         viewEmployee.getEmployeeCCLb().setText(employee.getCc());
         viewEmployee.setAttendanceListModel(attendanceEmployeeList);
-        
-        for(Attendance attendance: employee.getAttendances()){
+
+        for (Attendance attendance : employee.getAttendances()) {
             LocalDate attendanceDate = attendance.getAttendanceDate();
             attendanceEmployeeList.addElement(
                     getDayOfWeekSpanish(attendanceDate.getDayOfWeek())
-                            + " - " + 
-                            attendanceDate.toString()
+                    + " - "
+                    + attendanceDate.toString()
             );
         }
         viewEmployee.showDialog();
     }
-    
-    private String getDayOfWeekSpanish(DayOfWeek dayOfWeek){
+
+    private String getDayOfWeekSpanish(DayOfWeek dayOfWeek) {
         Locale spanishLocale = new Locale("es", "ES");
-TextStyle spanishDayOfWeekStyle = TextStyle.FULL;
-return  dayOfWeek.getDisplayName(spanishDayOfWeekStyle, spanishLocale).toLowerCase();
+        TextStyle spanishDayOfWeekStyle = TextStyle.FULL;
+        return dayOfWeek.getDisplayName(spanishDayOfWeekStyle, spanishLocale).toLowerCase();
     }
 
 }

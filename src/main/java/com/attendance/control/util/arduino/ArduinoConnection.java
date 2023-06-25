@@ -1,14 +1,17 @@
 package com.attendance.control.util.arduino;
         
 import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
+import gnu.io.UnsupportedCommOperationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.TooManyListenersException;
 
 public class ArduinoConnection implements SerialPortEventListener {
 
@@ -20,12 +23,12 @@ public class ArduinoConnection implements SerialPortEventListener {
         "/dev/tty.usbserial-A9007UX1", // Mac OS X
         "/dev/ttyACM0", // Raspberry Pi
         "/dev/ttyUSB0", // Linux
-        "COM3", // Windows
+        "COM18", // Windows
     };
 
     private BufferedReader input;
     private OutputStream output;
-    private static final int TIME_OUT = 2000;
+    private static final int TIME_OUT = 4000;
     private static final int DATA_RATE = 9600;
     
     private ArduinoConnection(){}
@@ -42,8 +45,6 @@ public class ArduinoConnection implements SerialPortEventListener {
     }
 
     public void initialize() {
-
-        System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
         CommPortIdentifier portId = null;
         Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -79,7 +80,7 @@ public class ArduinoConnection implements SerialPortEventListener {
             serialPort.addEventListener(this);
             serialPort.notifyOnDataAvailable(true);
 
-        } catch (Exception e) {
+        } catch (PortInUseException | UnsupportedCommOperationException | IOException | TooManyListenersException e) {
             System.err.println(e.toString());
         }
     }

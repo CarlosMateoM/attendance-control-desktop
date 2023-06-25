@@ -13,7 +13,7 @@
                 <exec.vmArgs>-Djava.library.path=lib/</exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.appArgs></exec.appArgs>
-                <exec.mainClass>${packageClassName}</exec.mainClass>
+                <exec.mainClass>com.attendance.control.AttendanceControl</exec.mainClass>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

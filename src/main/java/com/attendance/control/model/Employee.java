@@ -1,7 +1,5 @@
 package com.attendance.control.model;
 
-
-
 import com.attendance.control.view.components.table.EventAction;
 import com.attendance.control.view.components.table.ModelAction;
 import java.io.Serializable;
@@ -15,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,17 +31,23 @@ public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String cc;
     private String firstName;
     private String lastName;
-    @Column(unique=true)
+    @Column(unique = true)
     private int fingerprintId;
     @ToString.Exclude
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Attendance> attendances = new ArrayList<>();
-    
-    
+
+    @PreRemove
+    public void removeAttendanceAssociations() {
+        for(Attendance attendance: attendances){
+            attendance.getEmployees().remove(this);
+        }
+    }
+
     public Object[] toRowTable(EventAction event) {
         return new Object[]{id, firstName + " " + lastName, cc, new ModelAction(event, this)};
     }

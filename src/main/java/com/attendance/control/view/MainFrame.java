@@ -2,6 +2,7 @@ package com.attendance.control.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.ImageIcon;
 
 public class MainFrame extends javax.swing.JFrame {
     
@@ -15,6 +16,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void init(){
         this.windowBar1.setjFrame(this);
+        ImageIcon icono = new ImageIcon(getClass().getResource("/images/icons8-fingerprint-64.png"));
+        setIconImage(icono.getImage());
     }
    
     public static MainFrame getInstance(){

@@ -21,6 +21,7 @@
             <version>2.14.2</version>
             <type>jar</type>
         </dependency>
+        
         <dependency>
             <groupId>org.timing</groupId>
             <artifactId>timing.framework</artifactId>
@@ -52,10 +53,103 @@
             <version>5.4.21.Final</version>
         </dependency>
     </dependencies>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <exec.mainClass>com.attendance.control.AttendanceControl</exec.mainClass>
     </properties>
+    
+    <build>
+        <plugins>
+
+       
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.3.0</version>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <classpathPrefix>lib/</classpathPrefix>    
+                  <mainClass>com.attendance.control.AttendanceControl</mainClass> 
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+            <executions>
+              <execution>
+                <id>make-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                      <configuration>
+                      <outputDirectory>${project.basedir}</outputDirectory>
+                      <includeTypes>dll</includeTypes>
+                  </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+      
+  
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.basedir}/attendance-control-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
+                            <outfile>${project.basedir}/control-asistencia.exe</outfile>
+                            <downloadUrl>https://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>com.attendance.control.AttendanceControl</mainClass>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <jre>
+                                <path>jre1.8.0_202</path>
+                                <bundledJre64Bit>true</bundledJre64Bit>
+                                <minVersion>1.8.0</minVersion>
+                            </jre>
+                            
+                            <additionalDlls>
+                                <dll>
+                                    <path>lib/rxtxSerial.dll</path>
+                                    <bits>64</bits>
+                                </dll>
+                            </additionalDlls>
+                            
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.description}</fileDescription>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>${project.artifactId}</internalName>
+                            </versionInfo>
+                            <icon>${project.basedir}/src/main/resources/images/icons8-fingerprint-64.ico</icon>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+                      
+                                
+        </plugins>
+
+ 
+    </build>
+
 </project>
